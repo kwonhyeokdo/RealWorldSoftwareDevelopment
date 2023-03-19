@@ -20,13 +20,15 @@ public final class BankAnalzyer {
     }
 
     public final void collectSummary(BankStatementProcessor bankStatementProcessor){
-        System.out.println("모든 트랜잭션의 합계: " + bankStatementProcessor.calculateTotalAmount());
-        System.out.println("1월의 트랜잭션 합계: " + bankStatementProcessor.calculateTotalInMonth(Month.JANUARY));
-        System.out.println("2월의 트랜잭션 합계: " + bankStatementProcessor.calculateTotalInMonth(Month.FEBRUARY));
-        System.out.println("salary의 합계: " + bankStatementProcessor.calculateTotalForCategory("Salary"));
-        System.out.println("1월의 최대 금액: " + bankStatementProcessor.getMaxAmountInMonth(Month.JANUARY, Month.JANUARY));
-        System.out.println("1월~2월의 최소 금액: " + bankStatementProcessor.getMinAmountInMonth(Month.JANUARY, Month.FEBRUARY));
-        System.out.println("6월~12월의 최소 금액: " + bankStatementProcessor.getMinAmountInMonth(Month.JUNE, Month.DECEMBER));
+        System.out.println("- 모든 트랜잭션의 합계: " + bankStatementProcessor.calculateTotalAmount());
+        System.out.println("- 2월의 입/출금 건수: " + bankStatementProcessor.countBankStatementInMonth(Month.FEBRUARY));
+        System.out.println("- 1월의 트랜잭션 합계: " + bankStatementProcessor.calculateTotalInMonth(Month.JANUARY));
+        System.out.println("- 2월의 트랜잭션 합계: " + bankStatementProcessor.calculateTotalInMonth(Month.FEBRUARY));
+        System.out.println("- salary의 합계: " + bankStatementProcessor.calculateTotalForCategory("Salary"));
+        System.out.println("- 1월의 최대 금액: " + bankStatementProcessor.getMaxAmountInMonth(Month.JANUARY, Month.JANUARY));
+        System.out.println("- 1월~2월의 최소 금액: " + bankStatementProcessor.getMinAmountInMonth(Month.JANUARY, Month.FEBRUARY));
+        System.out.println("- 6월~12월의 최소 금액: " + bankStatementProcessor.getMinAmountInMonth(Month.JUNE, Month.DECEMBER));
+        System.out.println("- Tesco 항목의 월별 히스토그램");
         bankStatementProcessor.showDescriptionHistogramInMonth("Tesco");
     }
 }

@@ -2,7 +2,6 @@ package realworldsoftwaredevelopment.bankAnalzyer;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 
 public final class BankStatementProcessor{
@@ -54,44 +53,42 @@ public final class BankStatementProcessor{
         }
     }
 
-    public final Double getMaxAmountInMonth(final Month from, final Month to){
-        if(bankStatement.isEmpty()){
-            return null;
-        }else{
-            double maxBankStatement = Double.NEGATIVE_INFINITY;
-            boolean isEmpty = true;
-            for(final BankTransaction bankTransaction : bankStatement){
-                final Month bankTransactionMonth = bankTransaction.getDate().getMonth();
-                final double bankTransactionAmount = bankTransaction.getAmount();
-                if(bankTransactionMonth.getValue() >= from.getValue() &&
-                   bankTransactionMonth.getValue() <= to.getValue()
-                ){
-                    isEmpty = false;
-                    maxBankStatement = Math.max(maxBankStatement, bankTransactionAmount);
+    public final BankTransaction getMaxAmountInMonth(final Month from, final Month to){
+        BankTransaction maxBankTransaction = null;
+        double maxBankStatementAmount = Double.NEGATIVE_INFINITY;
+        
+        for(final BankTransaction bankTransaction : bankStatement){
+            final Month bankTransactionMonth = bankTransaction.getDate().getMonth();
+            final double bankTransactionAmount = bankTransaction.getAmount();
+            if(bankTransactionMonth.getValue() >= from.getValue() &&
+                bankTransactionMonth.getValue() <= to.getValue()
+            ){
+                if(maxBankStatementAmount < bankTransactionAmount){
+                    maxBankStatementAmount = bankTransactionAmount;
+                    maxBankTransaction = bankTransaction;
                 }
             }
-            return isEmpty ? null : maxBankStatement;
         }
+        return maxBankTransaction;
     }
 
-    public final Double getMinAmountInMonth(final Month from, final Month to){
-        if(bankStatement.isEmpty()){
-            return null;
-        }else{
-            double minBankStatement = Double.POSITIVE_INFINITY;
-            boolean isEmpty = true;
-            for(final BankTransaction bankTransaction : bankStatement){
-                final Month bankTransactionMonth = bankTransaction.getDate().getMonth();
-                final double bankTransactionAmount = bankTransaction.getAmount();
-                if(bankTransactionMonth.getValue() >= from.getValue() &&
-                   bankTransactionMonth.getValue() <= to.getValue()
-                ){
-                    isEmpty = false;
-                    minBankStatement = Math.min(minBankStatement, bankTransactionAmount);
+    public final BankTransaction getMinAmountInMonth(final Month from, final Month to){
+        BankTransaction minBankTransaction = null;
+        double minBankStatementAmount = Double.POSITIVE_INFINITY;
+        for(final BankTransaction bankTransaction : bankStatement){
+            final Month bankTransactionMonth = bankTransaction.getDate().getMonth();
+            final double bankTransactionAmount = bankTransaction.getAmount();
+            if(bankTransactionMonth.getValue() >= from.getValue() &&
+                bankTransactionMonth.getValue() <= to.getValue()
+            ){
+                if(minBankStatementAmount > bankTransactionAmount){
+                    minBankStatementAmount = bankTransactionAmount;
+                    minBankTransaction = bankTransaction;
                 }
             }
-            return isEmpty ? null : minBankStatement;
         }
+
+        return minBankTransaction;
     }
 
     public final void showDescriptionHistogramInMonth(final String description){
@@ -135,5 +132,16 @@ public final class BankStatementProcessor{
                 System.out.println(description + " 항목의 입출금 내역이 없습니다.");
             }
         }
+    }
+
+    public final Integer countBankStatementInMonth(final Month month){
+        int cnt = 0;
+        for(final BankTransaction bankTransaction : bankStatement){
+            if(bankTransaction.getDate().getMonth() == month){
+                cnt++;
+            }
+        }
+
+        return cnt == 0 ? null : cnt;
     }
 }
